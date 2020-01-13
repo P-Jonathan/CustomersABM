@@ -27,9 +27,10 @@ code {
 
 .app-frame {
     color: white;
-    margin: 5%;
     padding-bottom: 15px;
     width: calc(100vw - 10%);
+    height: calc(100vh - 2%);
+    margin: 2% 5%;
     background: white;
     border: solid 1px var(--p-color-light);
 }

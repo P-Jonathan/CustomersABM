@@ -8,6 +8,7 @@ import CustomerEdit from './../components/CustomerEdit';
 import AppFrame from './../components/AppFrame';
 import { fetchCustomers } from './../actions/fetchCustomers';
 import { updateCustomer } from './../actions/updateCustomer';
+import { deleteCustomer } from './../actions/deleteCustomer';
 import { SubmissionError } from 'redux-form';
 
 class CustomerContainer extends Component {
@@ -33,32 +34,51 @@ class CustomerContainer extends Component {
         this.props.history.goBack();
     }
 
+    handleOnDelete = id => {
+        this.props.deleteCustomer(id)
+            .then(data => this.props.history.goBack());
+    }
+
+    renderCustomerControl = (isEdit, isDelete) => {
+        const CustomerControl = isEdit ? CustomerEdit : CustomerData;
+        return (
+            <CustomerControl
+                {...this.props.customer}
+                onSubmit={this.handleSubmit}
+                onSubmitSuccess={this.handleOnSubmitSuccess}
+                onBack={this.handleBack}
+                isDeleteAllow={isDelete}
+                onDelete={this.handleOnDelete}
+            />
+        )
+    }
+
     renderBody = () => (
         <Route path="/customers/:dni/edit" children={
-            ({ match }) => {
-                const CustomerControl = match ? CustomerEdit : CustomerData;
-                return (
-                    <CustomerControl
-                        {...this.props.customer}
-                        onSubmit={this.handleSubmit}
-                        onSubmitSuccess={this.handleOnSubmitSuccess}
-                        onBack={this.handleBack}
-                    />
-                )
-            }
+            ({ match: isEdit }) => (
+                <Route path="/customers/:dni/delete" children={
+                    ({ match: isDelete }) => (
+                        this.renderCustomerControl(isEdit, !!isDelete)
+                    )
+                } />
+            )
         } />
     )
 
     render() {
-        return (
-            <div>
-                <AppFrame
-                    header='Client'
-                    body={this.renderBody()}
-                >
-                </AppFrame>
-            </div>
-        );
+        if (this.props.customer) {
+            return (
+                <div>
+                    <AppFrame
+                        header='Client'
+                        body={this.renderBody()}
+                    >
+                    </AppFrame>
+                </div>
+            );
+        } else {
+            return null;
+        }
     }
 };
 
@@ -66,7 +86,8 @@ CustomerContainer.propTypes = {
     dni: PropTypes.string.isRequired,
     customer: PropTypes.object,
     fetchCustomers: PropTypes.func.isRequired,
-    updateCustomer: PropTypes.func.isRequired
+    updateCustomer: PropTypes.func.isRequired,
+    deleteCustomer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => ({
@@ -75,7 +96,8 @@ const mapStateToProps = (state, props) => ({
 
 const mapDistpatchToProps = {
     fetchCustomers,
-    updateCustomer
+    updateCustomer,
+    deleteCustomer
 };
 
 const connectComponent = connect(mapStateToProps, mapDistpatchToProps)(CustomerContainer);

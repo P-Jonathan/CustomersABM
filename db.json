@@ -1,28 +1,17 @@
 {
   "customers": [
     {
-      "id": "32403514",
-      "dni": "32403514",
-      "name": "Carl Sagan",
-      "age": 57
-    },
-    {
-      "dni": "30542783",
-      "name": "Rewena Revenclaw",
-      "age": 18,
-      "id": "30542783"
-    },
-    {
+      "user": {
+        "permissions": [
+          "CUSTOMER_LIST",
+          "CUSTOMER_VIEW",
+          "CUSTOMER_EDIT"
+        ]
+      },
       "name": "Salazar Slitering",
-      "dni": "36904508",
-      "age": 102,
-      "id": "36904508"
-    },
-    {
-      "name": "Carol Green",
-      "dni": "23465765",
+      "dni": "68686864",
       "age": 43,
-      "id": "23465765"
+      "id": "68686864"
     }
   ],
   "posts": [

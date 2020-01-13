@@ -4,14 +4,12 @@ import AppHeader from "./AppHeader";
 
 import './../index.css';
 
-const AppFrame = ({header, body, footer}) => {
+const AppFrame = ({ header, body, footer }) => {
   return (
-    <div>
-      <div className="app-frame">
-        <AppHeader title={header}/>
-        <div className="app-frame-body">{body}</div>
-        {footer && <div>{footer}</div>}
-      </div>
+    <div className="app-frame">
+      <AppHeader title={header} />
+      <div className="app-frame-body">{body}</div>
+      {footer && <div>{footer}</div>}
     </div>
   );
 };
